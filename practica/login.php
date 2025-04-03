@@ -9,6 +9,7 @@ $db   = 'login_seguridad';
 
 $conn = new mysqli($host, $user, $pass, $db);
 
+
 // Verifica la conexión
 if ($conn->connect_error) {
     die("Error en la conexión: " . $conn->connect_error);
@@ -34,7 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verificar la contraseña ingresada con el hash almacenado
         if (password_verify($password, $hashed_password)) {
+            $_SESSION['username'] = $username;  // Guardar el usuario en la sesión
+            $_SESSION['loggedin'] = true;      // Marcar sesión como activa
+
             echo "¡Inicio de sesión exitoso! Bienvenido, $username.";
+            header("Location: exito.html");
+            exit();
         } else {
             echo "Usuario o contraseña incorrectos.";
         }
